@@ -3,14 +3,17 @@
   "profile": "tomify",
   "regions": ["us-east-1"],
   "hooks": {
-    "build": "babel src -d ./ && cp tom-wiggle.gif ./",
-    "clean": "rm index.js tom-wiggle.gif"
+    "build": "babel src -d ./ && cp src/tom-wiggle.gif ./",
+    "clean": "rm index.js tomify.js tom-wiggle.gif"
   },
   "environment": {
     "AWS_BUCKET": "tomify"
   },
   "lambda": {
     "memory": 256,
-    "timeout": 90
+    "timeout": 120
+  },
+  "cors": {
+    "enable": true
   }
 }

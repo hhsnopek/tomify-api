@@ -1,7 +1,7 @@
 const { PORT = 3000, AWS_BUCKET } = process.env
 const { readFile, remove } = require('fs-extra')
 const { parse, join, extname, resolve } = require('path')
-const { createQuery, addGifs } = require('tomify')
+const { createQuery, addGifs } = require('./tomify.js')
 const sizeOf = require('image-size')
 const express = require('express')
 const multer = require('multer')
