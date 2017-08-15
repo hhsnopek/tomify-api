@@ -1,6 +1,4 @@
-src
-.babelrc
-.gitignore
-.git
-package-lock.json
-readme.md
+*
+!index.js
+!tom-wiggle.gif
+!package.json
