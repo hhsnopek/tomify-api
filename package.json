@@ -10,15 +10,13 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.98.0",
+    "cors": "^2.8.4",
     "express": "^4.15.4",
     "fs-extra": "^4.0.1",
     "image-size": "^0.6.1",
     "lodash.mapvalues": "^4.6.0",
     "multer": "^1.3.0",
-    "projector-spawn": "^1.0.1",
-    "spawn-sync": "^1.0.15",
-    "thread-sleep": "^2.0.0",
-    "try-thread-sleep": "^1.0.2"
+    "projector-spawn": "^1.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

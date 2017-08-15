@@ -57,12 +57,17 @@ app.post('/upload', (req, res) => {
       )
       .then(() => read(gifDest))
       .then(stream => s3Upload(stream, filename))
-      .then(({ Location }) => res.status(200).send({ url: Location }))
+      .then(({ Location }) =>
+        res
+          .status(200)
+          .send({ url: Location })
+      )
       .then(() => rm(gifDest))
       .then(() => rm(req.file.path))
       .catch(err => {
-        console.error(err)
-        res.status(500).send(JSON.stringify(err, null, '  '))
+        const code = err.code || 500
+        const msg = err.message
+        res.status(code).send(JSON.stringify(msg, null, '  '))
       })
   })
 })
@@ -72,6 +77,9 @@ app.listen(PORT)
 
 function createPositions(data, resize, dimensions) {
   const positions = []
+  if (data.FaceDetails.length == 0)
+    throw ({ code: 400, message: 'No faces detected' })
+
   data.FaceDetails.map(({ BoundingBox: { Height, Width, Top, Left } }) => {
     Left = Left * dimensions.width
     Top = Top * dimensions.height

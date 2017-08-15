@@ -14,6 +14,8 @@
     "timeout": 120
   },
   "cors": {
-    "enable": true
+    "enable": true,
+    "allowed_methods": ["POST"],
+    "allowed_headers": ["*"]
   }
 }

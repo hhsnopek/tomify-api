@@ -1,4 +1,6 @@
 *
+!node_modules/**
 !index.js
+!tomify.js
 !tom-wiggle.gif
 !package.json
