@@ -10,7 +10,7 @@
     "AWS_BUCKET": "tomify"
   },
   "lambda": {
-    "memory": 256,
+    "memory": 512,
     "timeout": 120
   },
   "cors": {
