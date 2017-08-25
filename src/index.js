@@ -65,7 +65,7 @@ app.post('/upload', (req, res) => {
       .then(() => rm(gifDest))
       .then(() => rm(req.file.path))
       .catch(err => {
-        const code = err.code || 500
+        const code = err.code > 0 ? err.code : 500
         const msg = err.message
         res.status(code).send(JSON.stringify(msg, null, '  '))
       })
