@@ -11,6 +11,9 @@
   },
   "lambda": {
     "memory": 512,
+    "timeout": 130
+  },
+  "proxy": {
     "timeout": 120
   },
   "cors": {

@@ -71,7 +71,7 @@ function createQuery({x, y, height, width, gif}) {
  */
 
 function _debug(msg, ...args) {
-  if (process.env.TOMIFY_DEBUG === 'true') console.error(msg, ...args)
+  console.log(msg, ...args)
 }
 
 module.exports = { replaceAll, addGifs, createQuery, _debug }

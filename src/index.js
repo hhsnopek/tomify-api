@@ -39,7 +39,7 @@ app.post('/upload', (req, res) => {
 
     // Everything went fine
     if (!req.file) {
-      console.error(400, 'No File Uploaded')
+      console.log(400, 'No File Uploaded')
       res.status(400).send('No file Uploaded')
       return
     }
@@ -57,22 +57,23 @@ app.post('/upload', (req, res) => {
       )
       .then(() => read(gifDest))
       .then(stream => s3Upload(stream, filename))
-      .then(({ Location }) =>
+      .then(({ Location }) => {
+        console.log('Location', Location)
         res
           .status(200)
           .send({ url: Location })
-      )
+      })
       .then(() => rm(gifDest))
       .then(() => rm(req.file.path))
       .catch(err => {
-        const code = err.code > 0 ? err.code : 500
+        const code = parseInt(err.code, 10) > 0 ? err.code : 500
         const msg = err.message
+        console.log(code, msg)
         res.status(code).send(JSON.stringify(msg, null, '  '))
       })
   })
 })
 
-console.log('Listening on:', PORT)
 app.listen(PORT)
 
 function createPositions(data, resize, dimensions) {
@@ -80,6 +81,7 @@ function createPositions(data, resize, dimensions) {
   if (data.FaceDetails.length == 0)
     throw ({ code: 400, message: 'No faces detected' })
 
+  console.log('Faces detected')
   data.FaceDetails.map(({ BoundingBox: { Height, Width, Top, Left } }) => {
     Left = Left * dimensions.width
     Top = Top * dimensions.height
@@ -113,7 +115,11 @@ function createPositions(data, resize, dimensions) {
 
 function replaceFaces({ dest, file, positions }) {
   return new Promise((resolve, reject) => {
-    addGifs({ dest, file, positions }).then(resolve).catch(reject)
+    console.log('Replacing faces', dest, file, positions)
+    addGifs({ dest, file, positions }).then(() => {
+      console.log('ok')
+      resolve()
+    }).catch(reject)
   })
 }
 
@@ -132,6 +138,7 @@ function detectFaces(buffer) {
 
 function s3Upload(stream, filename) {
   return new Promise((resolve, reject) => {
+    console.log('Uploading to s3')
     const params = {
       Bucket: AWS_BUCKET,
       Key: filename,
@@ -140,8 +147,9 @@ function s3Upload(stream, filename) {
       ContentType: 'image/gif'
     }
     s3.upload(params, (err, data) => {
-      if (err) reject(err)
-      resolve(data)
+      if (err) return reject(err)
+      console.log('Uploaded')
+      return resolve(data)
     })
   })
 }
